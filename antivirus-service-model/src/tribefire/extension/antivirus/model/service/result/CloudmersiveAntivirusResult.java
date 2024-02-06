@@ -34,7 +34,7 @@ public interface CloudmersiveAntivirusResult extends AbstractAntivirusResult {
 	void setVirusNames(List<String> virusNames);
 	
 	@Override
-	default String getDetails() {
+	default String details() {
 		return String.format("Virus names: %s", String.join(", ", getVirusNames()));						
 	}
 

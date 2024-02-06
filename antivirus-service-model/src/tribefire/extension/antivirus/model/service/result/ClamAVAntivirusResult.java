@@ -46,7 +46,7 @@ public interface ClamAVAntivirusResult extends AbstractAntivirusResult {
 	void setException(String exception);
 	
 	@Override
-	default String getDetails() {
+	default String details() {
 		switch (Status.valueOf(this.getStatus())) {
 			case PASSED: 
 				return String.format("No virus found in content.");

@@ -24,7 +24,7 @@ import com.braintribe.model.check.service.CheckStatus;
 import com.braintribe.model.deploymentapi.check.data.CheckBundlesResponse;
 import com.braintribe.model.deploymentapi.check.request.RunCheckBundles;
 import com.braintribe.model.resource.Resource;
-import com.braintribe.testing.category.VerySlow;
+import com.braintribe.testing.category.SpecialEnvironment;
 
 import tribefire.extension.antivirus.integration.test.AbstractAntivirusTest;
 import tribefire.extension.antivirus.model.deployment.repository.configuration.ClamAVSpecification;
@@ -34,7 +34,7 @@ import tribefire.extension.antivirus.model.service.request.ScanForVirus;
 import tribefire.extension.antivirus.model.service.result.AbstractAntivirusResult;
 import tribefire.extension.antivirus.model.service.result.VirusInformation;
 
-@Category(VerySlow.class)
+@Category(SpecialEnvironment.class)
 public class ServiceAntivirusTest extends AbstractAntivirusTest {
 
 	private static final String INFECTION_PART_1 = "X5O!P%@AP[4\\PZX54(P^)7CC)7}$";

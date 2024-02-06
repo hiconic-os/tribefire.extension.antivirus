@@ -46,7 +46,7 @@ public interface VirusTotalAntivirusResult extends AbstractAntivirusResult {
 	void setResourceID(String resourceID);
 	
 	@Override
-	default String getDetails() {
+	default String details() {
 		return String.format("Permalink: %s, Scan date: %s, Resource id: %s", getPermalink(), getScanDate(), getResourceID());						
 	}
 }

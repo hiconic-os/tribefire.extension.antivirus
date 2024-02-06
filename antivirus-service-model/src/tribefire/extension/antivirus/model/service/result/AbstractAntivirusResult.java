@@ -64,7 +64,7 @@ public interface AbstractAntivirusResult extends GenericEntity {
 	long getDurationInMs();
 	void setDurationInMs(long durationInMs);
 	
-	default String getDetails() {
+	default String details() {
 		return null;
 	}
 }
