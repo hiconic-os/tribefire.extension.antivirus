@@ -20,12 +20,12 @@
     *install-repo,
     *hiconic-dev,
     !com.braintribe.devrock.model.repository.MavenHttpRepository {
-      name: "jitpack.io", 
-      url: "https://jitpack.io", 
+      name: "third-party",
+      url: "https://repo1.maven.org/maven2/",
     },
     !com.braintribe.devrock.model.repository.MavenHttpRepository {
-      name: "third-party", 
-      url: "https://repo1.maven.org/maven2/", 
+      name: "jitpack.io",
+      url: "https://jitpack.io",
     },
   ]
 }
