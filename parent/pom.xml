@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public License along w
         <V.com.braintribe.execution>[2.0,2.1)</V.com.braintribe.execution>
         <V.com.googlecode.junit-toolbox>2.4</V.com.googlecode.junit-toolbox>
         <V.org.apache.httpcomponents.httpmime>4.5.13</V.org.apache.httpcomponents.httpmime>
-        <V.com.github.Cloudmersive.Cloudmersive.APIClient.Java>v4.25</V.com.github.Cloudmersive.Cloudmersive.APIClient.Java>
+        <V.com.github.Cloudmersive>v4.25</V.com.github.Cloudmersive>
         <V.com.google.code.gson>2.10.1</V.com.google.code.gson>
     </properties>
     <licenses>
