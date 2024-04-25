@@ -24,8 +24,8 @@
       url: "https://repo1.maven.org/maven2/",
     },
     !com.braintribe.devrock.model.repository.MavenHttpRepository {
-      name: "jitpack.io",
-      url: "https://jitpack.io",
+      name: "liferay",
+      url: "https://repository.liferay.com/nexus/content/repositories/public/",
     },
   ]
 }
