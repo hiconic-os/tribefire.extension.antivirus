@@ -9,8 +9,8 @@
   },
 
   uploadRepository: &hiconic-dev  !com.braintribe.devrock.model.repository.IndexedMavenHttpRepository {
-    name: "hiconic-dev", 
-    url: "https://maven.pkg.github.com/hiconic-os/maven-repo-dev", 
+    name: "hiconic-dev",
+    url: "https://maven.pkg.github.com/hiconic-os/maven-repo-dev",
     user: "${env.DEVROCK_PIPELINE_UPLOAD_USER}",
     password: "${env.DEVROCK_PIPELINE_UPLOAD_PASSWORD}",
     dominanceFilter: !com.braintribe.devrock.model.repository.filters.AllMatchingArtifactFilter {},
