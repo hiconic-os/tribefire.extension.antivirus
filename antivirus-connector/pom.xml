@@ -58,11 +58,23 @@ limitations under the License.
             <artifactId>httpmime</artifactId>
             <version>${V.org.apache.httpcomponents.httpmime}</version>
         </dependency>
-        <!-- models -->
+
+		<dependency>
+		    <groupId>com.squareup.okio</groupId>
+		    <artifactId>okio</artifactId>
+		    <version>1.17.6</version>
+		</dependency>
         <dependency>
             <groupId>com.github.Cloudmersive</groupId>
             <artifactId>Cloudmersive.APIClient.Java</artifactId>
             <version>${V.com.github.Cloudmersive}</version>
+			<exclusions>
+				<exclusion>
+					<!-- All current version of Cloudmersive (our 4.2.35, latest 5.1.2) depend on okio 1.6.0, which has vulnerabilities -->
+					<groupId>com.squareup.okio</groupId>
+					<artifactId>okio</artifactId>
+				</exclusion>
+			</exclusions>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>

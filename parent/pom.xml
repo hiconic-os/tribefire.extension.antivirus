@@ -30,7 +30,7 @@ limitations under the License.
         <V.com.googlecode.junit-toolbox>2.4</V.com.googlecode.junit-toolbox>
         <V.org.apache.httpcomponents.httpmime>4.5.13</V.org.apache.httpcomponents.httpmime>
         <!-- Fetched - unfortunately - from Liferay repository, i.e. not available on Maven Central (status 2024-04-25). -->
-        <V.com.github.Cloudmersive>4.25</V.com.github.Cloudmersive>
+        <V.com.github.Cloudmersive>4.35</V.com.github.Cloudmersive>
         <V.com.google.code.gson>2.10.1</V.com.google.code.gson>
     </properties>
     <licenses>
