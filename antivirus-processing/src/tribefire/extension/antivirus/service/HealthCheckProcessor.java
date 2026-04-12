@@ -110,10 +110,6 @@ public class HealthCheckProcessor implements CheckProcessor {
 	 *            {@link PersistenceGmSession} - cortex session
 	 * @return List of {@link ProviderSpecification} from the module
 	 */
-	/**
-	 * @param cortexSession
-	 * @return
-	 */
 	private List<ProviderSpecification> fetchProviderSpecification(PersistenceGmSession cortexSession) {
 		List<ProviderSpecification> providers;
 		if (CommonTools.isEmpty(providerSpecificationType)) {
@@ -126,7 +122,6 @@ public class HealthCheckProcessor implements CheckProcessor {
 			providers = new ArrayList<>();
 			for (GenericEntity externalProvider : externalProviders) {
 				Class<GenericEntity> javaType = externalProvider.entityType().getJavaType();
-				Method[] methods = javaType.getMethods();
 				// Method providerActivatedMethodMethod = ReflectionTools.getMethod(providerActivatedMethod, javaType);
 
 				boolean activated;
