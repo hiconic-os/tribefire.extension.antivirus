@@ -15,7 +15,6 @@
 // ============================================================================
 package tribefire.extension.antivirus.service;
 
-import java.io.ByteArrayInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import com.braintribe.logging.Logger;
 import com.braintribe.model.check.service.CheckRequest;
 import com.braintribe.model.check.service.CheckResult;
 import com.braintribe.model.check.service.CheckResultEntry;
+import com.braintribe.model.check.service.CheckStatus;
 import com.braintribe.model.generic.GMF;
 import com.braintribe.model.generic.GenericEntity;
 import com.braintribe.model.processing.check.api.CheckProcessor;
@@ -36,19 +36,11 @@ import com.braintribe.model.processing.query.fluent.EntityQueryBuilder;
 import com.braintribe.model.processing.service.api.ServiceRequestContext;
 import com.braintribe.model.processing.session.api.persistence.PersistenceGmSession;
 import com.braintribe.model.query.EntityQuery;
-import com.braintribe.model.resource.Resource;
 import com.braintribe.utils.ReflectionTools;
 import com.braintribe.utils.lcd.CommonTools;
 
-import tribefire.extension.antivirus.connector.api.AntivirusConnector;
-import tribefire.extension.antivirus.model.deployment.repository.configuration.ClamAVSpecification;
-import tribefire.extension.antivirus.model.deployment.repository.configuration.CloudmersiveSpecification;
+import tribefire.extension.antivirus.connector.api.AntivirusHealthCheckResult;
 import tribefire.extension.antivirus.model.deployment.repository.configuration.ProviderSpecification;
-import tribefire.extension.antivirus.model.deployment.repository.configuration.VirusTotalSpecification;
-import tribefire.extension.antivirus.model.service.result.AbstractAntivirusResult;
-import tribefire.extension.antivirus.service.connector.clamav.ClamAVExpert;
-import tribefire.extension.antivirus.service.connector.cloudmersive.CloudmersiveExpert;
-import tribefire.extension.antivirus.service.connector.virustotal.VirusTotalExpert;
 
 public class HealthCheckProcessor implements CheckProcessor {
 
@@ -69,27 +61,20 @@ public class HealthCheckProcessor implements CheckProcessor {
 		List<ProviderSpecification> providers = fetchProviderSpecification(cortexSession);
 
 		List<CheckResultEntry> entries = response.getEntries();
-		Resource resource = Resource.T.create();
-		resource.assignTransientSource(() -> new ByteArrayInputStream("healthcheck".getBytes()));
-		for (ProviderSpecification provider : providers) {
-			AntivirusConnector<? extends AbstractAntivirusResult> expert;
-			if (provider instanceof ClamAVSpecification) {
-				expert = ClamAVExpert.forHealthCheck((ClamAVSpecification) provider, resource);
-			} else if (provider instanceof CloudmersiveSpecification) {
-				expert = CloudmersiveExpert.forHealthCheck((CloudmersiveSpecification) provider, resource);
-			} else if (provider instanceof VirusTotalSpecification) {
-				expert = VirusTotalExpert.forHealthCheck((VirusTotalSpecification) provider, resource);
-			} else {
-				throw new IllegalStateException("ProviderSpecification: '" + provider + "' not supported");
-			}
-
-			CheckResultEntry antivirusConnectorHealth = expert.actualHealth();
-			entries.add(antivirusConnectorHealth);
-		}
+		AntivirusHealthChecks.check(providers).stream().map(this::toCxResult).forEach(entries::add);
 
 		logger.debug(() -> "Executed antivirus health check");
 
 		return response;
+	}
+
+	private CheckResultEntry toCxResult(AntivirusHealthCheckResult health) {
+		CheckResultEntry result = CheckResultEntry.T.create();
+		result.setName(health.getName());
+		result.setCheckStatus(CheckStatus.valueOf(health.getStatus().name()));
+		result.setMessage(health.getMessage());
+		result.setDetails(health.getDetails());
+		return result;
 	}
 
 	// -----------------------------------------------------------------------

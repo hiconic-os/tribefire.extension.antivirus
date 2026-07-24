@@ -20,11 +20,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import com.braintribe.logging.Logger;
-import com.braintribe.model.check.service.CheckResultEntry;
-import com.braintribe.model.check.service.CheckStatus;
 import com.braintribe.model.resource.Resource;
 
 import tribefire.extension.antivirus.connector.api.AbstractAntivirusConnector;
+import tribefire.extension.antivirus.connector.api.AntivirusHealthCheckResult;
 import tribefire.extension.antivirus.model.deployment.repository.configuration.ClamAVSpecification;
 import tribefire.extension.antivirus.model.service.result.ClamAVAntivirusResult;
 
@@ -76,10 +75,7 @@ public class ClamAVExpert extends AbstractAntivirusConnector<ClamAVAntivirusResu
 	}
 
 	@Override
-	public CheckResultEntry healthCheck() {
-		CheckResultEntry checkResultEntry = CheckResultEntry.T.create();
-		checkResultEntry.setName("ClamAV check");
-
+	public AntivirusHealthCheckResult healthCheck() {
 		String host = providerSpecification.getURL();
 		Integer port = providerSpecification.getPort();
 
@@ -88,22 +84,17 @@ public class ClamAVExpert extends AbstractAntivirusConnector<ClamAVAntivirusResu
 			socket.connect(new InetSocketAddress(host, port));
 
 			if (socket.isConnected()) {
-				checkResultEntry.setCheckStatus(CheckStatus.ok);
-				checkResultEntry.setMessage(String.format("Connect was successful! Host: %s, Port: %s", host, port));
+				return AntivirusHealthCheckResult.ok("ClamAV check", String.format("Connect was successful! Host: %s, Port: %s", host, port));
 			} else {
 				String errorMessage = String.format("Could connect to socket but connection is not established! Host: %s, Port: %s", host, port);
-				checkResultEntry.setCheckStatus(CheckStatus.fail);
-				checkResultEntry.setMessage(errorMessage);
 				logger.debug(() -> errorMessage);
+				return AntivirusHealthCheckResult.fail("ClamAV check", errorMessage);
 			}
 		} catch (IOException e) {
 			String errorMessage = String.format("Could not connect! Host: %s, Port: %s, Reason: %s", host, port, e.getMessage());
-			checkResultEntry.setCheckStatus(CheckStatus.fail);
-			checkResultEntry.setMessage(errorMessage);
 			logger.debug(() -> errorMessage, e);
+			return AntivirusHealthCheckResult.fail("ClamAV check", errorMessage);
 		}
-
-		return checkResultEntry;
 	}
 
 	// Getters, Setters

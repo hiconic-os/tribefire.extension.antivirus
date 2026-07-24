@@ -41,11 +41,6 @@ limitations under the License.
             <artifactId>logging</artifactId>
             <version>${V.com.braintribe.common}</version>
         </dependency>
-        <dependency>
-            <groupId>tribefire.cortex</groupId>
-            <artifactId>check-base-api-model</artifactId>
-            <version>${V.tribefire.cortex}</version>
-        </dependency>
         <!-- ANTIVIRUS related -->
         <dependency>
             <groupId>tribefire.extension.antivirus</groupId>

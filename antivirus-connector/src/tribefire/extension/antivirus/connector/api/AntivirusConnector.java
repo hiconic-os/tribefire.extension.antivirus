@@ -15,13 +15,11 @@
 // ============================================================================
 package tribefire.extension.antivirus.connector.api;
 
-import com.braintribe.model.check.service.CheckResultEntry;
-
 import tribefire.extension.antivirus.model.service.result.AbstractAntivirusResult;
 
 public interface AntivirusConnector<T extends AbstractAntivirusResult> {
 
 	T scan();
 	
-	CheckResultEntry actualHealth();
+	AntivirusHealthCheckResult actualHealth();
 }

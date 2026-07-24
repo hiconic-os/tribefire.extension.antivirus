@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>tribefire.extension.antivirus</groupId>
+		<artifactId>parent</artifactId>
+		<version>[3.0,3.1)</version>
+	</parent>
+	<artifactId>antivirus-cx-processing</artifactId>
+	<version>3.0.1</version>
+	<dependencies>
+		<dependency>
+			<groupId>tribefire.extension.antivirus</groupId>
+			<artifactId>antivirus-processing</artifactId>
+			<version>${V.tribefire.extension.antivirus}</version>
+		</dependency>
+		<dependency>
+			<groupId>tribefire.cortex</groupId>
+			<artifactId>check-api</artifactId>
+			<version>${V.tribefire.cortex}</version>
+		</dependency>
+	</dependencies>
+</project>

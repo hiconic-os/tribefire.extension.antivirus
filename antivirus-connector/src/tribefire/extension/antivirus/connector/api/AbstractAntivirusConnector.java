@@ -19,7 +19,6 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.braintribe.logging.Logger;
-import com.braintribe.model.check.service.CheckResultEntry;
 import com.braintribe.model.generic.reflection.EntityType;
 import com.braintribe.model.resource.Resource;
 import com.braintribe.utils.lcd.CommonTools;
@@ -61,20 +60,18 @@ public abstract class AbstractAntivirusConnector<T extends AbstractAntivirusResu
 	// Health check
 
 	@Override
-	public CheckResultEntry actualHealth() {
+	public AntivirusHealthCheckResult actualHealth() {
 		long start = System.currentTimeMillis();
-		CheckResultEntry result = healthCheck();
+		AntivirusHealthCheckResult result = healthCheck();
 		long end = System.currentTimeMillis();
 
 		long duration = (end - start);
 
 		String detailedInformation = resourceInformation(resource);
-		result.setDetails(detailedInformation);
-
-		return result;
+		return result.withDetails(detailedInformation);
 	}
 
-	abstract protected CheckResultEntry healthCheck();
+	abstract protected AntivirusHealthCheckResult healthCheck();
 
 	// ------------------
 

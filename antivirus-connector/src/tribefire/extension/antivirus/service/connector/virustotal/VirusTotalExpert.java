@@ -29,11 +29,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import com.braintribe.logging.Logger;
-import com.braintribe.model.check.service.CheckResultEntry;
-import com.braintribe.model.check.service.CheckStatus;
 import com.braintribe.model.resource.Resource;
 
 import tribefire.extension.antivirus.connector.api.AbstractAntivirusConnector;
+import tribefire.extension.antivirus.connector.api.AntivirusHealthCheckResult;
 import tribefire.extension.antivirus.model.deployment.repository.configuration.VirusTotalSpecification;
 import tribefire.extension.antivirus.model.service.result.VirusTotalAntivirusResult;
 
@@ -115,10 +114,7 @@ public class VirusTotalExpert extends AbstractAntivirusConnector<VirusTotalAntiv
 	}
 
 	@Override
-	public CheckResultEntry healthCheck() {
-		CheckResultEntry checkResultEntry = CheckResultEntry.T.create();
-		checkResultEntry.setName("VirusTotal check");
-
+	public AntivirusHealthCheckResult healthCheck() {
 		String url = "https://www.virustotal.com/vtapi/v2/file/scan";
 
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -134,22 +130,17 @@ public class VirusTotalExpert extends AbstractAntivirusConnector<VirusTotalAntiv
 			CloseableHttpResponse response = httpClient.execute(request);
 
 			if (response.getStatusLine().getStatusCode() == 200) {
-				checkResultEntry.setCheckStatus(CheckStatus.ok);
-				checkResultEntry.setMessage(String.format("API is available on: %s", url));
+				return AntivirusHealthCheckResult.ok("VirusTotal check", String.format("API is available on: %s", url));
 			} else {
 				String errorMessage = String.format("API returned with error. Status code: %s, ReasonPhrase: %s", response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());
-				checkResultEntry.setCheckStatus(CheckStatus.fail);
-				checkResultEntry.setMessage(errorMessage);
 				logger.debug(() -> errorMessage);
+				return AntivirusHealthCheckResult.fail("VirusTotal check", errorMessage);
 			}
 		} catch (IOException e) {
 			String errorMessage = String.format("Could not reach API! Url: %s, Reason: %s", url, e.getMessage());
-			checkResultEntry.setCheckStatus(CheckStatus.fail);
-			checkResultEntry.setMessage(errorMessage);
 			logger.debug(() -> errorMessage, e);
+			return AntivirusHealthCheckResult.fail("VirusTotal check", errorMessage);
 		}
-
-		return checkResultEntry;
 	}
 
 	public void setVirusTotalScanner(VirusTotalScanner virusTotalScanner) {

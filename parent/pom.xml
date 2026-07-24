@@ -27,6 +27,7 @@ limitations under the License.
         <V.tribefire.cortex>[3.0,3.1)</V.tribefire.cortex>
         <V.com.braintribe.wire>[2.0,2.1)</V.com.braintribe.wire>
         <V.com.braintribe.execution>[2.0,2.1)</V.com.braintribe.execution>
+        <V.hiconic.platform.reflex>[1.0,1.1)</V.hiconic.platform.reflex>
         <V.com.googlecode.junit-toolbox>2.4</V.com.googlecode.junit-toolbox>
         <V.org.apache.httpcomponents.httpmime>4.5.13</V.org.apache.httpcomponents.httpmime>
         <!-- Fetched - unfortunately - from Liferay repository, i.e. not available on Maven Central (status 2024-04-25). -->

@@ -54,7 +54,7 @@ limitations under the License.
         <!-- Processing -->
         <dependency>
             <groupId>tribefire.extension.antivirus</groupId>
-            <artifactId>antivirus-processing</artifactId>
+            <artifactId>antivirus-cx-processing</artifactId>
             <version>${V.tribefire.extension.antivirus}</version>
         </dependency>
     </dependencies>

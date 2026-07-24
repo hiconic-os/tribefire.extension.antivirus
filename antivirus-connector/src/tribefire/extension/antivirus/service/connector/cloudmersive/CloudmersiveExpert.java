@@ -23,8 +23,6 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import com.braintribe.logging.Logger;
-import com.braintribe.model.check.service.CheckResultEntry;
-import com.braintribe.model.check.service.CheckStatus;
 import com.braintribe.model.resource.Resource;
 import com.braintribe.utils.FileTools;
 import com.braintribe.utils.RandomTools;
@@ -36,6 +34,7 @@ import com.cloudmersive.client.invoker.auth.ApiKeyAuth;
 import com.cloudmersive.client.model.VirusScanResult;
 
 import tribefire.extension.antivirus.connector.api.AbstractAntivirusConnector;
+import tribefire.extension.antivirus.connector.api.AntivirusHealthCheckResult;
 import tribefire.extension.antivirus.model.deployment.repository.configuration.CloudmersiveSpecification;
 import tribefire.extension.antivirus.model.service.result.CloudmersiveAntivirusResult;
 import tribefire.extension.antivirus.service.connector.virustotal.VirusTotalExpert;
@@ -111,10 +110,7 @@ public class CloudmersiveExpert extends AbstractAntivirusConnector<CloudmersiveA
 
 
 	@Override
-	public CheckResultEntry healthCheck() {
-		CheckResultEntry checkResultEntry = CheckResultEntry.T.create();
-		checkResultEntry.setName("Cloudmersive check");
-
+	public AntivirusHealthCheckResult healthCheck() {
 		ApiClient defaultClient = Configuration.getDefaultApiClient();
 
 		ApiKeyAuth Apikey = (ApiKeyAuth) defaultClient.getAuthentication("Apikey");
@@ -127,21 +123,17 @@ public class CloudmersiveExpert extends AbstractAntivirusConnector<CloudmersiveA
 			VirusScanResult scanResult = scanApi.scanFile(tmpFile);
 
 			if (scanResult.isCleanResult()) {
-				checkResultEntry.setCheckStatus(CheckStatus.ok);
-				checkResultEntry.setMessage(String.format("API is available on: %s", "https://api.cloudmersive.com"));
+				return AntivirusHealthCheckResult.ok("Cloudmersive check", String.format("API is available on: %s", "https://api.cloudmersive.com"));
 			} else {
 				String errorMessage = String.format("API returned with error.");
-				checkResultEntry.setCheckStatus(CheckStatus.fail);
-				checkResultEntry.setMessage(errorMessage);
 				logger.debug(() -> errorMessage);
+				return AntivirusHealthCheckResult.fail("Cloudmersive check", errorMessage);
 			}
 		} catch (ApiException e) {
 			String errorMessage = String.format("Could not reach API! Url: %s, Reason: %s", "https://api.cloudmersive.com", e.getMessage());
-			checkResultEntry.setCheckStatus(CheckStatus.fail);
-			checkResultEntry.setMessage(errorMessage);
 			logger.debug(() -> errorMessage, e);
+			return AntivirusHealthCheckResult.fail("Cloudmersive check", errorMessage);
 		}
-		return checkResultEntry;
 	}
 
 	public void setProviderSpecification(CloudmersiveSpecification providerSpecification) {
